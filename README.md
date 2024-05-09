@@ -59,6 +59,7 @@ npm start
 - jsonwebtoken
 - bootstrap
 - react-bootstrap
+- react-bootstrap-icons
 - react-cookie
 
 ## :bulb: Future Development

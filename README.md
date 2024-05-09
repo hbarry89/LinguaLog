@@ -50,12 +50,14 @@ npm start
 - Postman
 
 ### Packages:
+- nodemon
 - bcrypt
 - cors
 - dotenv
 - express
 - mongoose
 - jsonwebtoken
+- bootstrap
 - react-bootstrap
 - react-cookie
 

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LogoSVG from './logo.svg';
-import { Container, Nav, Navbar, Button, Modal, Card, Form } from 'react-bootstrap';
-import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
+import { Container, Nav, Navbar, Button, Modal, Card, Form, Alert } from 'react-bootstrap';
+import { PlusSquare, PencilSquare, Trash, CheckCircle, ExclamationTriangle } from 'react-bootstrap-icons';
 
 export default function App() {
   const api = 'http://localhost:3001';
@@ -16,6 +16,22 @@ export default function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editEntry, setEditEntry] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
+  const [alertVariant, setAlertVariant] = useState('');
+
+  const clearAlert = () => {
+    setAlertMessage('');
+    setAlertVariant('');
+  };
+
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => {
+        clearAlert();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
 
   // GET
   useEffect(() => {
@@ -45,11 +61,15 @@ export default function App() {
           setWordError('This word already exists.');
           return;
         }
-
-        console.log('Entry created successfully:', data);
+        setAlertMessage(' Entry has been created.');
+        setAlertVariant('success');
         setShowAddForm(false);
       })
-      .catch(error => console.error('Error creating an entry:', error));
+      .catch(error => {
+        console.error('Error creating an entry:', error);
+        setAlertMessage(' Unable to create entry. Please try again later.');
+        setAlertVariant('danger');
+      });
   };
 
   // PUT
@@ -72,11 +92,15 @@ export default function App() {
           setWordError('This word already exists.');
           return;
         }
-        
-        console.log(data);
+        setAlertMessage(' Entry has been updated.');
+        setAlertVariant('success');
         setShowEditForm(false);
       })
-      .catch(error => console.error('Error updating this entry:', error));
+      .catch(error => {
+        console.error('Error updating this entry:', error);
+        setAlertMessage(' Unable to update entry. Please try again later.');
+        setAlertVariant('danger');
+      });
   };
 
   // DELETE
@@ -89,8 +113,15 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(error => console.error('Error deleting this entry:', error));
+      .then(data => {
+        setAlertMessage(' Entry has been deleted.');
+        setAlertVariant('success');
+      })
+      .catch(error => {
+        console.error('Error deleting this entry:', error);
+        setAlertMessage(' Unable to delete entry. Please try again later.');
+        setAlertVariant('danger');
+      });
   };
 
   // Show Create Form
@@ -124,11 +155,19 @@ export default function App() {
         </Navbar.Collapse>
       </Navbar>
 
+      {alertMessage && (
+        <Alert variant={alertVariant}>
+          {alertVariant === 'success' ? <CheckCircle /> : <ExclamationTriangle />}
+          {alertMessage}
+        </Alert>
+      )}
+      
       <Container className="my-4">
         <div className="d-flex justify-content-between align-items-end">
           <Button onClick={createForm} variant="link" className="my-2 mx-0 p-0 text-primary fs-2"><PlusSquare /></Button>
           <p className="my-2 mx-0 p-0">Entries Count: <span>{entries.length}</span></p>
         </div>
+
         {entries.map(entry => (
           <Card key={entry._id} className="mb-4">
             <Card.Header>

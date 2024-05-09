@@ -21,21 +21,40 @@ const mongoose = require('mongoose');
 mongoose.connect(`mongodb+srv://${username}:${password}@${cluster}.islrhrq.mongodb.net/${database}`);
 
 // IMPORT MODELS
-const UserModel = require('./models/Users');
+const EntryModel = require('./models/Entries');
 
 app.get('/', (req, res) => {
     res.send('Welcome to LinguaLog!');
 });
 
-app.get('/users', async (req, res) => {
-    const users = await UserModel.find();
-    res.json(users);
+app.get('/entries', async (req, res) => {
+try {
+    const entries = await EntryModel.find();
+    res.json(entries);
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
 });
 
-app.post('/createUser', async (req, res) => {
-  const newUser = new UserModel(req.body);
-  await newUser.save();
-  res.json(req.body);
+app.post('/createEntry', async (req, res) => {
+try {
+    const newEntry = new EntryModel(req.body);
+    await newEntry.save();
+    res.json(newEntry);
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
+});
+
+app.delete('/deleteEntry/:id', async (req, res) => {
+const { id } = req.params;
+
+try {
+    await EntryModel.findByIdAndDelete(id);
+    res.json({ message: 'Entry deleted successfully' });
+} catch (error) {
+    res.status(500).json({ message: error.message });
+}
 });
 
 app.listen(_PORT, () => {

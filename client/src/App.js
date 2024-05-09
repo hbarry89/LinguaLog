@@ -5,50 +5,66 @@ export default function App() {
 
   const api = 'http://localhost:3001';
 
-  const [users, setUsers] = useState([]);
-  const [name, setName] = useState('');
+  const [entries, setEntries] = useState([]);
+  const [word, setWord] = useState('');
+  const [definition, setDefinition] = useState('');
 
   useEffect(() => {
-    fetch(`${api}/users`)
+    // GET
+    fetch(`${api}/entries`)
       .then(response => response.json())
-      .then(data => setUsers(data));
-  }, [users]);
+      .then(data => setEntries(data));
+  }, [entries]);
   
-  const createUser = () => {
-    if (!name.trim()) {
-      console.error('Name cannot be empty');
-      return;
-    }
+  // POST
+  const createEntry = () => {
 
-    const userData = {
-      name
+    const entryData = {
+      word,
+      definition
     };
     
-    fetch(`${api}/createUser`, {
+    fetch(`${api}/createEntry`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(userData),
+      body: JSON.stringify(entryData),
     })
       .then(res => res.json())
       .then(data => console.log(data))
-      .catch(error => console.error('Error creating user:', error));
+      .catch(error => console.error('Error creating an entry:', error));
+  };
+
+  // DELETE
+  const deleteEntry = (id) => {    
+    fetch(`${api}/deleteEntry/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error deleting an entry:', error));
   };
 
   return (
     <>
-      {users.map(user => {
+      {entries.map(entry => {
         return (
-          <div key={user._id}>
-            <h1>{user.name}</h1>
+          <div key={entry._id}>
+            <h1>{entry.word}</h1>
+            <p>{entry.definition}</p>
+            <button onClick={() => deleteEntry(entry._id)}>Delete</button>
           </div>
         );
       })}
 
       <div>
-        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
-        <button onClick={createUser}>Create User</button>
+        <input type="text" placeholder="Word" onChange={e => setWord(e.target.value)}/>
+        <input type="textarea" placeholder="Definition" onChange={e => setDefinition(e.target.value)}/>
+        <button onClick={createEntry}>Create an Entry</button>
       </div>
     </>
   );

@@ -2,15 +2,17 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LogoSVG from './logo.svg';
-import { Container, Nav, Navbar, Button, Modal, Card } from 'react-bootstrap';
-import { PlusCircle, PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
+import { Container, Nav, Navbar, Button, Modal, Card, Form } from 'react-bootstrap';
+import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
 
 export default function App() {
   const api = 'http://localhost:3001';
 
   const [entries, setEntries] = useState([]);
   const [word, setWord] = useState('');
+  const [wordError, setWordError] = useState('');
   const [definition, setDefinition] = useState('');
+  const [definitionError, setDefinitionError] = useState('');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editEntry, setEditEntry] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
@@ -25,6 +27,12 @@ export default function App() {
 
   // POST
   const createEntry = () => {
+    if (!word || !definition) {
+      setWordError(word ? '' : 'Please enter a word.');
+      setDefinitionError(definition ? '' : 'Please enter a definition.');
+      return;
+    }
+
     const entryData = { word, definition };
     fetch(`${api}/entries`, {
       method: 'POST',
@@ -33,7 +41,12 @@ export default function App() {
     })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
+        if (data.message && data.message.includes('duplicate' || 'dup')) {
+          setWordError('This word already exists.');
+          return;
+        }
+
+        console.log('Entry created successfully:', data);
         setShowAddForm(false);
       })
       .catch(error => console.error('Error creating an entry:', error));
@@ -41,6 +54,12 @@ export default function App() {
 
   // PUT
   const updateEntry = () => {
+    if (!word || !definition) {
+      setWordError(word ? '' : 'Please enter a word.');
+      setDefinitionError(definition ? '' : 'Please enter a definition.');
+      return;
+    }
+
     const updatedEntryData = { id: editEntry._id, word, definition };
     fetch(`${api}/entries/${editEntry._id}`, {
       method: 'PUT',
@@ -49,6 +68,11 @@ export default function App() {
     })
       .then(res => res.json())
       .then(data => {
+        if (data.message && data.message.includes('duplicate' || 'dup')) {
+          setWordError('This word already exists.');
+          return;
+        }
+        
         console.log(data);
         setShowEditForm(false);
       })
@@ -127,10 +151,18 @@ export default function App() {
             <Modal.Title>Add an Entry</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <label htmlFor="word"><b>Word</b></label>
-            <input className="form-control my-2" type="text" value={word} onChange={e => setWord(e.target.value)} required />
-            <label htmlFor="definition"><b>Definition</b></label>
-            <textarea className="form-control my-2" value={definition} onChange={e => setDefinition(e.target.value)} required />
+            <Form>
+              <Form.Group controlId="word">
+                <Form.Label><b>Word</b></Form.Label>
+                <Form.Control type="text" value={word} onChange={e => { setWord(e.target.value); setWordError(''); }} isInvalid={!!wordError} />
+                <Form.Control.Feedback type="invalid">{wordError}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId="definition">
+                <Form.Label><b>Definition</b></Form.Label>
+                <Form.Control as="textarea" value={definition} onChange={e => { setDefinition(e.target.value); setDefinitionError(''); }} isInvalid={!!definitionError} />
+                <Form.Control.Feedback type="invalid">{definitionError}</Form.Control.Feedback>
+              </Form.Group>
+            </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowAddForm(false)}>Cancel</Button>
@@ -143,10 +175,18 @@ export default function App() {
             <Modal.Title>Edit Entry</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <label htmlFor="word"><b>Word</b></label>
-            <input className="form-control my-2" type="text" value={word} onChange={e => setWord(e.target.value)} />
-            <label htmlFor="definition"><b>Definition</b></label>
-            <textarea className="form-control my-2" value={definition} onChange={e => setDefinition(e.target.value)} />
+            <Form>
+              <Form.Group controlId="word">
+                <Form.Label><b>Word</b></Form.Label>
+                <Form.Control type="text" value={word} onChange={e => { setWord(e.target.value); setWordError(''); }} isInvalid={!!wordError} />
+                <Form.Control.Feedback type="invalid">{wordError}</Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group controlId="definition">
+                <Form.Label><b>Definition</b></Form.Label>
+                <Form.Control as="textarea" value={definition} onChange={e => { setDefinition(e.target.value); setDefinitionError(''); }} isInvalid={!!definitionError} />
+                <Form.Control.Feedback type="invalid">{definitionError}</Form.Control.Feedback>
+              </Form.Group>
+            </Form>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={() => setShowEditForm(false)}>Cancel</Button>

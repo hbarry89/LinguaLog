@@ -1,25 +1,55 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
 import './App.css';
 
-function App() {
+export default function App() {
+
+  const api = 'http://localhost:3001';
+
+  const [users, setUsers] = useState([]);
+  const [name, setName] = useState('');
+
+  useEffect(() => {
+    fetch(`${api}/users`)
+      .then(response => response.json())
+      .then(data => setUsers(data));
+  }, [users]);
+  
+  const createUser = () => {
+    if (!name.trim()) {
+      console.error('Name cannot be empty');
+      return;
+    }
+
+    const userData = {
+      name
+    };
+    
+    fetch(`${api}/createUser`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(res => res.json())
+      .then(data => console.log(data))
+      .catch(error => console.error('Error creating user:', error));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {users.map(user => {
+        return (
+          <div key={user._id}>
+            <h1>{user.name}</h1>
+          </div>
+        );
+      })}
+
+      <div>
+        <input type="text" placeholder="Name" onChange={e => setName(e.target.value)}/>
+        <button onClick={createUser}>Create User</button>
+      </div>
+    </>
   );
 }
-
-export default App;

@@ -1,10 +1,24 @@
+// USE DOTENV
+require('dotenv').config();
+
 // CREATE SERVER
 const express = require('express');
 const app = express();
+const _PORT = process.env.PORT || 3001;
+app.use(express.json());
+
+// USE CORS
+const cors = require('cors');
+app.use(cors());
 
 // CONNECT TO DATABASE
+const username = process.env.DATABASE_USERNAME,
+      password = process.env.DATABASE_PASSWORD,
+      cluster = process.env.DATABASE_CLUSTER,
+      database = process.env.DATABASE_NAME
+
 const mongoose = require('mongoose');
-mongoose.connect();
+mongoose.connect(`mongodb+srv://${username}:${password}@${cluster}.islrhrq.mongodb.net/${database}`);
 
 // IMPORT MODELS
 const UserModel = require('./models/Users');
@@ -18,6 +32,12 @@ app.get('/users', async (req, res) => {
     res.json(users);
 });
 
-app.listen('3001', () => {
-  console.log('Server is running on port 3001');
+app.post('/createUser', async (req, res) => {
+  const newUser = new UserModel(req.body);
+  await newUser.save();
+  res.json(req.body);
+});
+
+app.listen(_PORT, () => {
+  console.log('Server is running');
 });

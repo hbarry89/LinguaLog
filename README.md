@@ -6,18 +6,11 @@ LinguaLog is a language learning tracking web app that enables users to record a
 
 ## :desktop_computer: Usage
 
-This app is not deployed yet.
-
-To run the app locally, please follow these instructions:
-- Clone the repository.
-- Run the following command on both the client and server sides:
-```
-npm start
-```
+[Click here](https://lingualog-fe.onrender.com/) to view the live link.
 
 ### Preview:
 
-- TBA
+<img width="800" alt="lingualog" src="https://hbarry89.github.io/assets/files/work/lingualog.png">
 
 ## :confetti_ball: Features
 - MERN Stack.
@@ -31,6 +24,7 @@ npm start
 - Storing tokens to cookies.
 - Form validation.
 - Responsive design.
+- Deployed with a live link.
 
 ## :wrench: Technologies Used
 
@@ -48,18 +42,20 @@ npm start
 - VS Code
 - MongoDB Compass
 - Postman
+- Render
 
 ### Packages:
 - nodemon
-- bcrypt
-- cors
+- concurrently
 - dotenv
+- cors
 - express
 - mongoose
-- jsonwebtoken
 - bootstrap
 - react-bootstrap
 - react-bootstrap-icons
+- bcrypt
+- jsonwebtoken
 - react-cookie
 
 ## :bulb: Future Development

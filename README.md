@@ -66,5 +66,6 @@ LinguaLog is a language learning tracking web app that enables users to record a
 - [Tutorial 1](https://www.youtube.com/)
 - [Tutorial 2](https://www.youtube.com/) 
 - [ChatGPT](https://openai.com/blog/chatgpt)
+- [Render Deployment](https://www.youtube.com/watch?v=v-gNinaxZkA&ab_channel=Andy%27sTechTutorials)
 
 <p align="center">Thank you for visiting! :ribbon:</p>

@@ -1,7 +1,8 @@
 const express = require('express');
-const EntryModel = require('../models/Entries.js');
-
 const router = express.Router();
+
+// IMPORT MODELS
+const EntryModel = require('../models/Entries.js');
 
 // Prefix: /entries
 

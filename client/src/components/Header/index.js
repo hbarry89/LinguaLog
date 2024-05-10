@@ -13,7 +13,7 @@ export default function Header() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="https://github.com/hbarry89/LinguaLog" target="">GitHub</Nav.Link>
+          <Nav.Link href="https://github.com/hbarry89/LinguaLog" target="_blank">GitHub</Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

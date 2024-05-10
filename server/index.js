@@ -15,7 +15,13 @@ app.use(cors());
 const mongodbURI = process.env.MONGODB_URI;
 
 const mongoose = require('mongoose');
-mongoose.connect(mongodbURI);
+mongoose.connect(mongodbURI)
+  .then(() => {
+    console.log("Connected to MongoDB");
+  })
+  .catch((err) => {
+    console.error("Error connecting to MongoDB:", err);
+  });
 
 app.get('/', (req, res) => {
     res.send('Welcome to LinguaLog!');

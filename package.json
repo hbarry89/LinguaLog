@@ -1,0 +1,35 @@
+{
+  "name": "lingualog",
+  "version": "1.0.0",
+  "description": "A language learning tracking web app",
+  "main": "server/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
+    "install": "cd server && npm i && cd ../client && npm install --production=false",
+    "build": "cd client && npm run build",
+    "render-build": "npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbarry89/LinguaLog.git"
+  },
+  "keywords": [
+    "language",
+    "log",
+    "word",
+    "vocabulary",
+    "definition",
+    "dictionary"
+  ],
+  "author": "Huda Barry",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hbarry89/LinguaLog/issues"
+  },
+  "homepage": "https://github.com/hbarry89/LinguaLog#readme",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

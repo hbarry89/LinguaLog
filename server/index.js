@@ -4,7 +4,7 @@ require('dotenv').config();
 // CREATE SERVER
 const express = require('express');
 const app = express();
-const _PORT = process.env.PORT || 3001;
+const port = process.env.PORT || 3001;
 app.use(express.json());
 
 // USE CORS
@@ -28,6 +28,6 @@ app.get('/', (req, res) => {
 const entriesRoute = require('./routes/entriesRoute');
 app.use('/entries', entriesRoute);
 
-app.listen(_PORT, () => {
+app.listen(port, () => {
   console.log('Server is running');
 });

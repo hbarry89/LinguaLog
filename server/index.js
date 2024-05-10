@@ -12,13 +12,10 @@ const cors = require('cors');
 app.use(cors());
 
 // CONNECT TO DATABASE
-const username = process.env.DATABASE_USERNAME,
-      password = process.env.DATABASE_PASSWORD,
-      cluster = process.env.DATABASE_CLUSTER,
-      database = process.env.DATABASE_NAME
+const mongodbURI = process.env.MONGODB_URI;
 
 const mongoose = require('mongoose');
-mongoose.connect(`mongodb+srv://${username}:${password}@${cluster}.islrhrq.mongodb.net/${database}`);
+mongoose.connect(mongodbURI);
 
 app.get('/', (req, res) => {
     res.send('Welcome to LinguaLog!');

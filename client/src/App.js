@@ -5,7 +5,7 @@ import { Container, Button, Modal, Card, Form, Alert } from 'react-bootstrap';
 import { PlusSquare, PencilSquare, Trash, CheckCircle, ExclamationTriangle } from 'react-bootstrap-icons';
 
 export default function App() {
-  const api = 'http://localhost:3001';
+  const api = process.env.REACT_APP_API_URL;
   const [entries, setEntries] = useState([]);
   const [word, setWord] = useState('');
   const [wordError, setWordError] = useState('');

@@ -4,7 +4,7 @@ import CustomToast from './components/CustomToast';
 import CreateModal from './components/CreateModal';
 import UpdateModal from './components/UpdateModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button, Modal, Card, Form } from 'react-bootstrap';
+import { Container, Button, Card, Spinner } from 'react-bootstrap';
 import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
 
 export default function App() {
@@ -20,12 +20,16 @@ export default function App() {
   const [toastMessage, setToastMessage] = useState('');
   const [toastVariant, setToastVariant] = useState('');
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // GET
   useEffect(() => {
     fetch(`${api}/entries`)
       .then(response => response.json())
-      .then(data => setEntries(data))
+      .then(data => {
+        setEntries(data);
+        setLoading(false); // Set loading to false when data is loaded
+      })
       .catch(error => console.error('Error reading entries:', error));
   }, [entries]);
 
@@ -147,22 +151,30 @@ export default function App() {
           <p className="my-2 mx-0 p-0">Entries Count: <span>{entries.length}</span></p>
         </div>
 
-        {entries.map(entry => (
-          <Card key={entry._id} className="mb-4">
-            <Card.Header>
-              <b>{entry.word}</b>
-              <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
-                <Trash />
-              </Button>
-              <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
-                <PencilSquare />
-              </Button>
-            </Card.Header>
-            <Card.Body>
-              <Card.Text>{entry.definition}</Card.Text>
-            </Card.Body>
-          </Card>
-        ))}
+        {loading ? (
+          <div className="d-flex justify-content-center" style={{ minHeight: '50vh' }}>
+            <Spinner animation="border" role="status" variant="secondary">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          </div>
+        ) : (
+          entries.map(entry => (
+            <Card key={entry._id} className="mb-4">
+              <Card.Header>
+                <b>{entry.word}</b>
+                <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
+                  <Trash />
+                </Button>
+                <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
+                  <PencilSquare />
+                </Button>
+              </Card.Header>
+              <Card.Body>
+                <Card.Text>{entry.definition}</Card.Text>
+              </Card.Body>
+            </Card>
+          ))
+        )}
       </Container>
 
       <CreateModal

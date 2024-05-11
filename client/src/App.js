@@ -152,7 +152,7 @@ export default function App() {
         </div>
 
         {loading ? (
-          <div className="d-flex justify-content-center" style={{ minHeight: '50vh' }}>
+          <div className="d-flex justify-content-center">
             <Spinner animation="border" role="status" variant="secondary">
               <span className="visually-hidden">Loading...</span>
             </Spinner>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header'
 import CustomToast from './components/CustomToast';
+import CreateModal from './components/CreateModal';
+import UpdateModal from './components/UpdateModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Modal, Card, Form } from 'react-bootstrap';
 import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
@@ -163,53 +165,36 @@ export default function App() {
         ))}
       </Container>
 
-      <Modal show={showAddForm} onHide={() => setShowAddForm(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Add an Entry</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="word">
-              <Form.Label className="fw-bold">Word</Form.Label>
-              <Form.Control type="text" value={word} onChange={e => { setWord(e.target.value); setWordError(''); }} isInvalid={!!wordError} />
-              <Form.Control.Feedback type="invalid">{wordError}</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="definition">
-              <Form.Label className="mt-4 fw-bold">Definition</Form.Label>
-              <Form.Control as="textarea" value={definition} onChange={e => { setDefinition(e.target.value); setDefinitionError(''); }} isInvalid={!!definitionError} />
-              <Form.Control.Feedback type="invalid">{definitionError}</Form.Control.Feedback>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowAddForm(false)}>Cancel</Button>
-          <Button variant="primary" onClick={createEntry}>Add</Button>
-        </Modal.Footer>
-      </Modal>
+      <CreateModal
+        show={showAddForm}
+        onHide={() => setShowAddForm(false)}
+        word={word}
+        setWord={setWord}
+        wordError={wordError}
+        setWordError={setWordError}
+        definition={definition}
+        setDefinition={setDefinition}
+        definitionError={definitionError}
+        setDefinitionError={setDefinitionError}
+        createEntry={createEntry}
+      />
 
-      <Modal show={showEditForm} onHide={() => setShowEditForm(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Edit Entry</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="word">
-              <Form.Label className="fw-bold">Word</Form.Label>
-              <Form.Control type="text" value={word} onChange={e => { setWord(e.target.value); setWordError(''); }} isInvalid={!!wordError} />
-              <Form.Control.Feedback type="invalid">{wordError}</Form.Control.Feedback>
-            </Form.Group>
-            <Form.Group controlId="definition">
-              <Form.Label className="mt-4 fw-bold">Definition</Form.Label>
-              <Form.Control as="textarea" value={definition} onChange={e => { setDefinition(e.target.value); setDefinitionError(''); }} isInvalid={!!definitionError} />
-              <Form.Control.Feedback type="invalid">{definitionError}</Form.Control.Feedback>
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowEditForm(false)}>Cancel</Button>
-          <Button variant="primary" onClick={updateEntry}>Save</Button>
-        </Modal.Footer>
-      </Modal>
+      {editEntry && (
+        <UpdateModal
+          show={!!editEntry}
+          onHide={() => setEditEntry(null)}
+          entry={editEntry}
+          setWord={setWord}
+          word={word}
+          setWordError={setWordError}
+          wordError={wordError}
+          setDefinition={setDefinition}
+          definition={definition}
+          setDefinitionError={setDefinitionError}
+          definitionError={definitionError}
+          updateEntry={updateEntry}
+        />
+      )}
     </>
   );
 }

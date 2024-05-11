@@ -193,8 +193,8 @@ export default function App() {
 
       {editEntry && (
         <UpdateModal
-          show={!!editEntry}
-          onHide={() => setEditEntry(null)}
+          show={showEditForm}
+          onHide={() => setShowEditForm(false)}
           entry={editEntry}
           setWord={setWord}
           word={word}

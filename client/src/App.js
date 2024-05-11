@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header'
+import CustomToast from './components/CustomToast';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button, Modal, Card, Form, Toast, ToastContainer } from 'react-bootstrap';
+import { Container, Button, Modal, Card, Form } from 'react-bootstrap';
 import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
   const [showEditForm, setShowEditForm] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   const [toastVariant, setToastVariant] = useState('');
-  const [show, setShow] = useState(false);
+  const [showToast, setShowToast] = useState(false);
 
   // GET
   useEffect(() => {
@@ -49,13 +50,13 @@ export default function App() {
         setToastMessage('Entry has been created.');
         setToastVariant('success');
         setShowAddForm(false);
-        setShow(true);
+        setShowToast(true);
       })
       .catch(error => {
         console.error('Error creating an entry:', error);
         setToastMessage('Unable to create entry. Please try again later.');
         setToastVariant('danger');
-        setShow(true);
+        setShowToast(true);
       });
   };
 
@@ -82,13 +83,13 @@ export default function App() {
         setToastMessage('Entry has been updated.');
         setToastVariant('success');
         setShowEditForm(false);
-        setShow(true);
+        setShowToast(true);
       })
       .catch(error => {
         console.error('Error updating this entry:', error);
         setToastMessage('Unable to update entry. Please try again later.');
         setToastVariant('danger');
-        setShow(true);
+        setShowToast(true);
       });
   };
 
@@ -105,13 +106,13 @@ export default function App() {
       .then(data => {
         setToastMessage('Entry has been deleted.');
         setToastVariant('success');
-        setShow(true);
+        setShowToast(true);
       })
       .catch(error => {
         console.error('Error deleting this entry:', error);
         setToastMessage('Unable to delete entry. Please try again later.');
         setToastVariant('danger');
-        setShow(true);
+        setShowToast(true);
       });
   };
 
@@ -134,11 +135,7 @@ export default function App() {
     <>
       <Header />
 
-      <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 1 }}>
-        <Toast onClose={() => setShow(false)} show={show} delay={2000} autohide>
-          <Toast.Body className={`bg-${toastVariant}`}>{toastMessage}</Toast.Body>
-        </Toast>
-      </ToastContainer>
+      <CustomToast onClose={() => setShowToast(false)} message={toastMessage} variant={toastVariant} show={showToast} />
 
       <Container className="my-4">
         <div className="d-flex justify-content-between align-items-end">

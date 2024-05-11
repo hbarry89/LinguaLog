@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Container, Button, Modal, Card, Form, Alert } from 'react-bootstrap';
-import { PlusSquare, PencilSquare, Trash, CheckCircle, ExclamationTriangle } from 'react-bootstrap-icons';
+import { Container, Button, Modal, Card, Form, Toast, ToastContainer } from 'react-bootstrap';
+import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
 
 export default function App() {
   const api = process.env.REACT_APP_API_URL;
@@ -14,8 +14,9 @@ export default function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [editEntry, setEditEntry] = useState(null);
   const [showEditForm, setShowEditForm] = useState(false);
-  const [alertMessage, setAlertMessage] = useState('');
-  const [alertVariant, setAlertVariant] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastVariant, setToastVariant] = useState('');
+  const [show, setShow] = useState(false);
 
   // GET
   useEffect(() => {
@@ -45,14 +46,16 @@ export default function App() {
           setWordError('This word already exists.');
           return;
         }
-        setAlertMessage(' Entry has been created.');
-        setAlertVariant('success');
+        setToastMessage('Entry has been created.');
+        setToastVariant('success');
         setShowAddForm(false);
+        setShow(true);
       })
       .catch(error => {
         console.error('Error creating an entry:', error);
-        setAlertMessage(' Unable to create entry. Please try again later.');
-        setAlertVariant('danger');
+        setToastMessage('Unable to create entry. Please try again later.');
+        setToastVariant('danger');
+        setShow(true);
       });
   };
 
@@ -76,14 +79,16 @@ export default function App() {
           setWordError('This word already exists.');
           return;
         }
-        setAlertMessage(' Entry has been updated.');
-        setAlertVariant('success');
+        setToastMessage('Entry has been updated.');
+        setToastVariant('success');
         setShowEditForm(false);
+        setShow(true);
       })
       .catch(error => {
         console.error('Error updating this entry:', error);
-        setAlertMessage(' Unable to update entry. Please try again later.');
-        setAlertVariant('danger');
+        setToastMessage('Unable to update entry. Please try again later.');
+        setToastVariant('danger');
+        setShow(true);
       });
   };
 
@@ -98,13 +103,15 @@ export default function App() {
     })
       .then(res => res.json())
       .then(data => {
-        setAlertMessage(' Entry has been deleted.');
-        setAlertVariant('success');
+        setToastMessage('Entry has been deleted.');
+        setToastVariant('success');
+        setShow(true);
       })
       .catch(error => {
         console.error('Error deleting this entry:', error);
-        setAlertMessage(' Unable to delete entry. Please try again later.');
-        setAlertVariant('danger');
+        setToastMessage('Unable to delete entry. Please try again later.');
+        setToastVariant('danger');
+        setShow(true);
       });
   };
 
@@ -123,32 +130,15 @@ export default function App() {
     setShowEditForm(true);
   };
 
-  // Clear Alert
-  const clearAlert = () => {
-    setAlertMessage('');
-    setAlertVariant('');
-  };
-
-  // Settimeout to Clear Alert
-  useEffect(() => {
-    if (alertMessage) {
-      const timer = setTimeout(() => {
-        clearAlert();
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [alertMessage]);
-
   return (
     <>
       <Header />
 
-      {alertMessage && (
-        <Alert variant={alertVariant}>
-          {alertVariant === 'success' ? <CheckCircle /> : <ExclamationTriangle />}
-          {alertMessage}
-        </Alert>
-      )}
+      <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 1 }}>
+        <Toast onClose={() => setShow(false)} show={show} delay={2000} autohide>
+          <Toast.Body className={`bg-${toastVariant}`}>{toastMessage}</Toast.Body>
+        </Toast>
+      </ToastContainer>
 
       <Container className="my-4">
         <div className="d-flex justify-content-between align-items-end">

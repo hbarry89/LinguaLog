@@ -28,10 +28,10 @@ export default function App() {
       .then(response => response.json())
       .then(data => {
         setEntries(data);
-        setLoading(false); // Set loading to false when data is loaded
+        setLoading(false);
       })
       .catch(error => console.error('Error reading entries:', error));
-  }, [entries]);
+  }, []);
 
   // POST
   const createEntry = () => {
@@ -55,6 +55,7 @@ export default function App() {
         }
         setToastMessage('Entry has been created.');
         setToastVariant('success');
+        setEntries([...entries, data]);
         setShowAddForm(false);
         setShowToast(true);
       })
@@ -88,6 +89,8 @@ export default function App() {
         }
         setToastMessage('Entry has been updated.');
         setToastVariant('success');
+        const updatedEntries = entries.map(entry => entry._id === editEntry._id ? data : entry);
+        setEntries(updatedEntries);
         setShowEditForm(false);
         setShowToast(true);
       })

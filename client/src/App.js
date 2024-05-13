@@ -115,6 +115,8 @@ export default function App() {
       .then(data => {
         setToastMessage('Entry has been deleted.');
         setToastVariant('success');
+        const deletedEntries = entries.filter(entry => entry._id !== id);
+        setEntries(deletedEntries);
         setShowToast(true);
       })
       .catch(error => {

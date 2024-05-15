@@ -12,7 +12,23 @@ const EntryModel = require('../models/Entries.js');
 router.get('/', async (req, res) => {
     try {
         const entries = await EntryModel.find();
+        if (!entries) {
+            return res.status(404).json({ message: 'Entries not found' });
+        }
         res.json(entries);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const entry = await EntryModel.findById(id);
+        if (!entry) {
+            return res.status(404).json({ message: 'Entry not found' });
+        }
+        res.json(entry);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -36,7 +52,6 @@ router.post('/', async (req, res) => {
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
-
     try {
         const { word } = req.body;
         const existingWord = await EntryModel.findOne({ word });
@@ -53,7 +68,6 @@ router.put('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
     const { id } = req.params;
-
     try {
         await EntryModel.findByIdAndDelete(id);
         res.json({ message: 'Entry deleted successfully' });

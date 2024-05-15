@@ -7,23 +7,48 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // IMPORT MODEL
-const UsersModel = require('../models/Users.js');
+const UserModel = require('../models/Users.js');
 
 /*
     User Endpoints
     Base path: /
 */
 
+router.get('/users', async (req, res) => {
+    try {
+        const users = await UserModel.find();
+        if (!users) {
+            return res.status(404).json({ message: 'Users not found' });
+        }
+        res.json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const user = await UserModel.findById(id);
+        if (!user) {
+            return res.status(404).json({ message: 'user not found' });
+        }
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
 router.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const existingUser = await UsersModel.findOne({ username });
+        const existingUser = await UserModel.findOne({ username });
         if (existingUser) {
             return res.status(409).json({ message: 'Username already exists!' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const newUser = new UsersModel({
+        const newUser = new UserModel({
             username,
             password: hashedPassword
         });
@@ -38,7 +63,7 @@ router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        const user = await UsersModel.findOne({ username });
+        const user = await UserModel.findOne({ username });
         if (!user) {
             return res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').json({ message: 'Incorrect username or password' });
         }

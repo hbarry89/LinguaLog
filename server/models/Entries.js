@@ -10,7 +10,12 @@ const EntrySchema = new Schema({
         type: String,
         required: true
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        // required: true
+    }
 });
 
-const EntryModel = model('entries', EntrySchema);
+const EntryModel = model('entry', EntrySchema);
 module.exports = EntryModel;

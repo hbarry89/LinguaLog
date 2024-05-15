@@ -12,6 +12,12 @@ LinguaLog is a language learning tracking web app that enables users to record a
 
 <img width="800" alt="lingualog" src="https://hbarry89.github.io/assets/files/work/lingualog.png">
 
+### API
+
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/30609284-09654e02-8ae1-4fbf-a5e1-72fe2f6b7b7e)
+
+[API Documentation](30609284-09654e02-8ae1-4fbf-a5e1-72fe2f6b7b7e)
+
 ## :confetti_ball: Features
 - MERN Stack.
 - CRUD app.

@@ -41,7 +41,11 @@ export default function App() {
       return;
     }
 
-    const entryData = { word, definition };
+    const entryData = {
+      word,
+      definition
+    };
+
     fetch(`${api}/entries`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -75,7 +79,12 @@ export default function App() {
       return;
     }
 
-    const updatedEntryData = { id: editEntry._id, word, definition };
+    const updatedEntryData = {
+      id: editEntry._id,
+      word,
+      definition
+    };
+
     fetch(`${api}/entries/${editEntry._id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

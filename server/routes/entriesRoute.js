@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 
-// IMPORT MODELS
+// IMPORT MODEL
 const EntryModel = require('../models/Entries.js');
 
-// Prefix: /entries
+/*
+    Entries Endpoints
+    Base path: /entries
+*/
 
 router.get('/', async (req, res) => {
     try {
@@ -17,6 +20,12 @@ router.get('/', async (req, res) => {
     
 router.post('/', async (req, res) => {
     try {
+        const { word } = req.body;
+        const existingWord = await EntryModel.findOne({ word });
+        if (existingWord) {
+            return res.status(409).json({ message: 'Word already exists!' });
+        }
+
         const newEntry = new EntryModel(req.body);
         await newEntry.save();
         res.json(newEntry);
@@ -29,6 +38,12 @@ router.put('/:id', async (req, res) => {
     const { id } = req.params;
 
     try {
+        const { word } = req.body;
+        const existingWord = await EntryModel.findOne({ word });
+        if (existingWord) {
+            return res.status(409).json({ message: 'Word already exists!' });
+        }
+        
         const updatedEntry = await EntryModel.findByIdAndUpdate(id, req.body, { new: true });
         res.json(updatedEntry);
     } catch (error) {

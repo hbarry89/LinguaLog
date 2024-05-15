@@ -22,6 +22,9 @@ app.get('/', (req, res) => {
 });
 
 // IMPORT ROUTES
+const usersRoute = require('./routes/usersRoute');
+app.use('/users', usersRoute);
+
 const entriesRoute = require('./routes/entriesRoute');
 app.use('/entries', entriesRoute);
 

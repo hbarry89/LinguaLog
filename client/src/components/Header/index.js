@@ -1,8 +1,24 @@
 import './style.css';
 import LogoSVG from '../../assets/logo.svg';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Nav, Navbar, Form } from 'react-bootstrap';
+import { useEffect, useState } from 'react';
 
 export default function Header() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('theme') || 'dark';
+  });
+
+  useEffect(() => {
+    document.body.setAttribute('data-bs-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+    document.body.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
   return (
     <Navbar expand="lg" className="navbar px-4">
       <Navbar.Brand href="/">
@@ -15,6 +31,9 @@ export default function Header() {
           <Nav.Link href="/">Home</Nav.Link>
           <Nav.Link href="https://github.com/hbarry89/LinguaLog" target="_blank">GitHub</Nav.Link>
         </Nav>
+        <Form>
+          <Form.Check type="switch" id="theme-switch" checked={theme === 'dark'} onChange={toggleTheme} />
+        </Form>
       </Navbar.Collapse>
     </Navbar>
   );

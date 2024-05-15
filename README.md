@@ -23,6 +23,7 @@ LinguaLog is a language learning tracking web app that enables users to record a
 - Storing IDs to localStorage
 - Storing tokens to cookies.
 - Form validation.
+- Dark/light modes storing to localStorage.
 - Responsive design.
 - Deployed with a live link.
 
@@ -63,8 +64,8 @@ LinguaLog is a language learning tracking web app that enables users to record a
 
 ## :books: Resources
 
-- [Tutorial 1](https://www.youtube.com/)
-- [Tutorial 2](https://www.youtube.com/) 
+- [Tutorial 1](https://www.youtube.com/watch?v=Akt98GIXArg)
+- [Tutorial 2](https://www.youtube.com/watch?v=qu7SK7ZoKCE)
 - [ChatGPT](https://openai.com/blog/chatgpt)
 - [Render Deployment](https://www.youtube.com/watch?v=v-gNinaxZkA&ab_channel=Andy%27sTechTutorials)
 

@@ -1,3 +1,7 @@
-.navbar {
-  background-color: #2b303b;
+[data-bs-theme="dark"] .navbar {
+  background-color: #2B3035;
+}
+
+[data-bs-theme="light"] .navbar {
+  background-color: #F8F9FA;
 }

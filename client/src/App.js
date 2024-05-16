@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './components/Header'
 import CustomToast from './components/CustomToast';
 import CreateModal from './components/CreateModal';
@@ -25,13 +25,18 @@ export default function App() {
   // GET
   useEffect(() => {
     fetch(`${api}/entries`)
-      .then(response => response.json())
-      .then(data => {
-        setEntries(data);
-        setLoading(false);
-      })
-      .catch(error => console.error('Error reading entries:', error));
-  }, []);
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to get entries.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      setEntries(data);
+      setLoading(false);
+    })
+    .catch(error => console.error('Error reading entries:', error));
+}, []);
 
   // POST
   const createEntry = () => {
@@ -51,24 +56,29 @@ export default function App() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(entryData),
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message && data.message.includes('duplicate' || 'dup')) {
-          setWordError('This word already exists.');
-          return;
-        }
-        setToastMessage('Entry has been created.');
-        setToastVariant('success');
-        setEntries([...entries, data]);
-        setShowAddForm(false);
-        setShowToast(true);
-      })
-      .catch(error => {
-        console.error('Error creating an entry:', error);
-        setToastMessage('Unable to create entry. Please try again later.');
-        setToastVariant('danger');
-        setShowToast(true);
-      });
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to post entry.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.message && data.message.includes('duplicate' || 'dup')) {
+        setWordError(`${word} already exists.`);
+        return;
+      }
+      setToastMessage(`${word} has been created.`);
+      setToastVariant('success');
+      setEntries([...entries, data]);
+      setShowAddForm(false);
+      setShowToast(true);
+    })
+    .catch(error => {
+      console.error(`Error creating an entry for ${word}:`, error);
+      setToastMessage(`Unable to create an entry for ${word}. Please try again later.`);
+      setToastVariant('danger');
+      setShowToast(true);
+    });
   };
 
   // PUT
@@ -87,53 +97,68 @@ export default function App() {
 
     fetch(`${api}/entries/${editEntry._id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(updatedEntryData),
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message && data.message.includes('duplicate' || 'dup')) {
-          setWordError('This word already exists.');
-          return;
-        }
-        setToastMessage('Entry has been updated.');
-        setToastVariant('success');
-        const updatedEntries = entries.map(entry => entry._id === editEntry._id ? data : entry);
-        setEntries(updatedEntries);
-        setShowEditForm(false);
-        setShowToast(true);
-      })
-      .catch(error => {
-        console.error('Error updating this entry:', error);
-        setToastMessage('Unable to update entry. Please try again later.');
-        setToastVariant('danger');
-        setShowToast(true);
-      });
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to put entry.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      if (data.message && data.message.includes('duplicate' || 'dup')) {
+        setWordError(`${word} already exists.`);
+        return;
+      }
+      setToastMessage(`${word} has been updated.`);
+      setToastVariant('success');
+      const updatedEntries = entries.map(entry => entry._id === editEntry._id ? data : entry);
+      setEntries(updatedEntries);
+      setShowEditForm(false);
+      setShowToast(true);
+    })
+    .catch(error => {
+      console.error(`Error updating ${word}:`, error);
+      setToastMessage(`Unable to update ${word}. Please try again later.`);
+      setToastVariant('danger');
+      setShowToast(true);
+    });
   };
 
   // DELETE
-  const deleteEntry = (id, word) => {
+  const deleteEntry = (id) => {
     const isConfirmed = window.confirm(`Are you sure you want to delete ${word}?`);
     if (!isConfirmed) return;
 
     fetch(`${api}/entries/${id}`, {
       method: 'DELETE',
-      headers: { 'Content-Type': 'application/json' }
+      headers: {
+        'Content-Type': 'application/json'
+      },
     })
-      .then(res => res.json())
-      .then(data => {
-        setToastMessage('Entry has been deleted.');
-        setToastVariant('success');
-        const deletedEntries = entries.filter(entry => entry._id !== id);
-        setEntries(deletedEntries);
-        setShowToast(true);
-      })
-      .catch(error => {
-        console.error('Error deleting this entry:', error);
-        setToastMessage('Unable to delete entry. Please try again later.');
-        setToastVariant('danger');
-        setShowToast(true);
-      });
+    .then(response => {
+      if (!response.ok) {
+          throw new Error('Failed to delete entry.');
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log(data);
+      setToastMessage(`${word} has been deleted.`);
+      setToastVariant('success');
+      const deletedEntries = entries.filter(entry => entry._id !== id);
+      setEntries(deletedEntries);
+      setShowToast(true);
+    })
+    .catch(error => {
+      console.error(`Error deleting ${word}:`, error);
+      setToastMessage(`Unable to delete ${word}. Please try again later.`);
+      setToastVariant('danger');
+      setShowToast(true);
+    });
   };
 
   // Show Create Form
@@ -176,7 +201,7 @@ export default function App() {
             <Card key={entry._id} className="mb-4">
               <Card.Header>
                 <b>{entry.word}</b>
-                <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
+                <Button onClick={() => deleteEntry(entry._id)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
                   <Trash />
                 </Button>
                 <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">

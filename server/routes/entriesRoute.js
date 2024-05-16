@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     try {
         const entries = await EntryModel.find();
         if (!entries) {
-            return res.status(404).json({ message: 'Entries not found' });
+            return res.status(404).json({ message: 'Entries not found.' });
         }
         res.json(entries);
     } catch (error) {
@@ -26,7 +26,7 @@ router.get('/:id', async (req, res) => {
     try {
         const entry = await EntryModel.findById(id);
         if (!entry) {
-            return res.status(404).json({ message: 'Entry not found' });
+            return res.status(404).json({ message: 'Entry not found.' });
         }
         res.json(entry);
     } catch (error) {
@@ -70,7 +70,7 @@ router.delete('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         await EntryModel.findByIdAndDelete(id);
-        res.json({ message: 'Entry deleted successfully' });
+        res.json({ message: 'Entry deleted successfully.' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

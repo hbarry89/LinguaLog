@@ -1,10 +1,9 @@
-import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 const UpdateModal = ({
   show,
   onHide,
-  entry,
+  entry, // entry is used to pre-fill input fields, but not directly rendered in JSX
   setWord,
   word,
   setWordError,

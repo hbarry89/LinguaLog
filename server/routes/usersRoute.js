@@ -18,7 +18,7 @@ router.get('/users', async (req, res) => {
     try {
         const users = await UserModel.find();
         if (!users) {
-            return res.status(404).json({ message: 'Users not found' });
+            return res.status(404).json({ message: 'Users not found.' });
         }
         res.json(users);
     } catch (error) {
@@ -31,7 +31,7 @@ router.get('/users/:id', async (req, res) => {
     try {
         const user = await UserModel.findById(id);
         if (!user) {
-            return res.status(404).json({ message: 'user not found' });
+            return res.status(404).json({ message: 'User not found.' });
         }
         res.json(user);
     } catch (error) {
@@ -42,10 +42,10 @@ router.get('/users/:id', async (req, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { username, password } = req.body;
-        const existingUser = await UserModel.findOne({ username });
-        if (existingUser) {
-            return res.status(409).json({ message: 'Username already exists!' });
-        }
+        // const existingUser = await UserModel.findOne({ username });
+        // if (existingUser) {
+        //     return res.status(409).json({ message: 'Username already exists!' });
+        // }
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = new UserModel({
@@ -53,7 +53,7 @@ router.post('/register', async (req, res) => {
             password: hashedPassword
         });
         await newUser.save();
-        res.json({ message: 'User registered successfully!' });
+        res.json({ message: 'User registered successfully.' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -65,15 +65,15 @@ router.post('/login', async (req, res) => {
     try {
         const user = await UserModel.findOne({ username });
         if (!user) {
-            return res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').json({ message: 'Incorrect username or password' });
+            return res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').json({ message: 'Incorrect username or password.' });
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
-            return res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').json({ message: 'Incorrect username or password' });
+            return res.status(401).header('WWW-Authenticate', 'Basic realm="Secure Area"').json({ message: 'Incorrect username or password.' });
         }
 
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        res.json({ token });
+        res.json({ token, userId: user._id });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

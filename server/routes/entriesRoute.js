@@ -36,11 +36,11 @@ router.get('/:id', async (req, res) => {
     
 router.post('/', async (req, res) => {
     try {
-        const { word } = req.body;
-        const existingWord = await EntryModel.findOne({ word });
-        if (existingWord) {
-            return res.status(409).json({ message: 'Word already exists!' });
-        }
+        // const { word } = req.body;
+        // const existingWord = await EntryModel.findOne({ word });
+        // if (existingWord) {
+        //     return res.status(409).json({ message: 'Word already exists!' });
+        // }
 
         const newEntry = new EntryModel(req.body);
         await newEntry.save();
@@ -53,11 +53,11 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const { word } = req.body;
-        const existingWord = await EntryModel.findOne({ word });
-        if (existingWord) {
-            return res.status(409).json({ message: 'Word already exists!' });
-        }
+        // const { word } = req.body;
+        // const existingWord = await EntryModel.findOne({ word });
+        // if (existingWord) {
+        //     return res.status(409).json({ message: 'Word already exists!' });
+        // }
         
         const updatedEntry = await EntryModel.findByIdAndUpdate(id, req.body, { new: true });
         res.json(updatedEntry);

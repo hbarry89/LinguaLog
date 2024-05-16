@@ -20,7 +20,7 @@ const CreateModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group controlId="word">
+          <Form.Group className="mb-3" controlId="word">
             <Form.Label className="fw-bold">Word</Form.Label>
             <Form.Control
               type="text"
@@ -33,8 +33,8 @@ const CreateModal = ({
             />
             <Form.Control.Feedback type="invalid">{wordError}</Form.Control.Feedback>
           </Form.Group>
-          <Form.Group controlId="definition">
-            <Form.Label className="mt-4 fw-bold">Definition</Form.Label>
+          <Form.Group className="mb-3" controlId="definition">
+            <Form.Label className="fw-bold">Definition</Form.Label>
             <Form.Control
               as="textarea"
               value={definition}

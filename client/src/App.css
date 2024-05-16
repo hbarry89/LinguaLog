@@ -1,0 +1,11 @@
+.card-container {
+  border-radius: 10px;
+}
+
+[data-bs-theme="light"] .card-container {
+  box-shadow: rgb(230, 230, 230) 5px 5px 5px;
+}
+
+[data-bs-theme="dark"] .card-container {
+  box-shadow: rgb(25, 25, 25) 5px 5px 5px;
+}

@@ -8,6 +8,12 @@ LinguaLog is a language learning tracking web app that enables users to record a
 
 [Click here](https://lingualog-fe.onrender.com/) to view the live link.
 
+*You nay use the following credentials to log in:*
+```
+Username: test
+Password: 12345678
+```
+
 ### Preview:
 
 <img width="800" alt="lingualog" src="https://hbarry89.github.io/assets/files/work/lingualog.png">

@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
-import Header from './components/Header'
-import CustomToast from './components/CustomToast';
-import CreateModal from './components/CreateModal';
-import UpdateModal from './components/UpdateModal';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Button, Card, Spinner } from 'react-bootstrap';
 import { PlusSquare, PencilSquare, Trash } from 'react-bootstrap-icons';
+import CreateModal from './components/CreateModal';
+import UpdateModal from './components/UpdateModal';
+import CustomToast from './components/CustomToast';
+import './App.css';
 
 export default function App() {
   const api = process.env.REACT_APP_API_URL;
@@ -129,7 +128,7 @@ export default function App() {
   };
 
   // DELETE
-  const deleteEntry = (id) => {
+  const deleteEntry = (id, word) => {
     const isConfirmed = window.confirm(`Are you sure you want to delete ${word}?`);
     if (!isConfirmed) return;
 
@@ -178,8 +177,6 @@ export default function App() {
 
   return (
     <>
-      <Header />
-
       <CustomToast onClose={() => setShowToast(false)} message={toastMessage} variant={toastVariant} show={showToast} />
 
       <Container className="my-4">
@@ -198,20 +195,22 @@ export default function App() {
           </div>
         ) : (
           entries.map(entry => (
-            <Card key={entry._id} className="mb-4">
-              <Card.Header>
-                <b>{entry.word}</b>
-                <Button onClick={() => deleteEntry(entry._id)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
-                  <Trash />
-                </Button>
-                <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
-                  <PencilSquare />
-                </Button>
-              </Card.Header>
-              <Card.Body>
-                <Card.Text>{entry.definition}</Card.Text>
-              </Card.Body>
-            </Card>
+            <div className="card-container">
+              <Card key={entry._id} className="mb-4">
+                <Card.Header>
+                  <b>{entry.word}</b>
+                  <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
+                    <Trash />
+                  </Button>
+                  <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
+                    <PencilSquare />
+                  </Button>
+                </Card.Header>
+                <Card.Body>
+                  <Card.Text>{entry.definition}</Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
           ))
         )}
       </Container>

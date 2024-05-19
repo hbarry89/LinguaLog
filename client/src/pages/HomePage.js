@@ -6,7 +6,7 @@ export default function HomePage({ isSignedIn }) {
       <h1 className="m-4 text-center">Welcome to LinguaLog!</h1>
 
       {isSignedIn ? (
-        <p>Use the navbar to navigate to the desired page.</p>
+        <p className="m-4 text-center">Use the navbar to navigate to the desired page.</p>
       ) : (
         <>
           <SignIn />

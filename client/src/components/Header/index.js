@@ -32,7 +32,7 @@ export default function Header({ isSignedIn, handleLogout }) {
           {isSignedIn ? (
             <>
               <Nav.Link href="/dashboard">Dashboard</Nav.Link>
-              <Nav.Link href="/Dictionary">Dictionary</Nav.Link>
+              <Nav.Link href="/dictionary">Dictionary</Nav.Link>
             </>
           ) : (
             null

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // IMPORT MODEL
-const EntryModel = require('../models/Entries.js');
+const EntryModel = require('../models/Entry.js');
 
 /*
     Entries Endpoints

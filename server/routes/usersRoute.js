@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // IMPORT MODEL
-const UserModel = require('../models/Users.js');
+const UserModel = require('../models/User.js');
 
 /*
     User Endpoints

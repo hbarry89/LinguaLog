@@ -1,9 +1,9 @@
 import './style.css';
 import LogoSVG from '../../assets/logo.svg';
-import { Nav, Navbar, Form } from 'react-bootstrap';
+import { Nav, Navbar, Form, Button, Dropdown } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 
-export default function Header() {
+export default function Header({ isSignedIn, handleLogout }) {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
@@ -29,8 +29,33 @@ export default function Header() {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
           <Nav.Link href="/">Home</Nav.Link>
-          <Nav.Link href="https://github.com/hbarry89/LinguaLog" target="_blank">GitHub</Nav.Link>
+          {isSignedIn ? (
+            <>
+              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="/Dictionary">Dictionary</Nav.Link>
+            </>
+          ) : (
+            null
+          )}
         </Nav>
+
+        {isSignedIn ? (
+          <Button onClick={handleLogout} variant="primary" className="btn-sm me-4">Logout</Button>
+        ) : (
+          <>
+            <Dropdown>
+              <Dropdown.Toggle variant="primary" className="btn-sm me-4" id="dropdown-basic">
+                Account
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item href="/sign-in">Sign In</Dropdown.Item>
+                <Dropdown.Item href="/create-account">Create Account</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </>
+        )}
+
         <Form>
           <Form.Check type="switch" id="theme-switch" checked={theme === 'dark'} onChange={toggleTheme} />
         </Form>

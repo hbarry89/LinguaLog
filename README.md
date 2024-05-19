@@ -28,7 +28,7 @@ Password: 12345678
 - MERN Stack.
 - CRUD app.
 - HTTP requests.
-- User registeration and log in.
+- User authentication.
 - Passwrod is hashed and salted.
 - User authentication.
 - Connection to MongoDB database.

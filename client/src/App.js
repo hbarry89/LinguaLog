@@ -177,8 +177,6 @@ export default function App() {
 
   return (
     <>
-      <CustomToast onClose={() => setShowToast(false)} message={toastMessage} variant={toastVariant} show={showToast} />
-
       <Container className="my-4">
         <div className="d-flex justify-content-between align-items-end">
           <Button onClick={createForm} variant="link" className="my-2 mx-0 p-0 text-primary fs-2">
@@ -195,8 +193,8 @@ export default function App() {
           </div>
         ) : (
           entries.map(entry => (
-            <div className="card-container">
-              <Card key={entry._id} className="mb-4">
+            <div key={entry._id} className="card-container">
+              <Card className="mb-4">
                 <Card.Header>
                   <b>{entry.word}</b>
                   <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
@@ -245,6 +243,13 @@ export default function App() {
           updateEntry={updateEntry}
         />
       )}
+
+      <CustomToast
+        onClose={() => setShowToast(false)}
+        message={toastMessage}
+        variant={toastVariant}
+        show={showToast}
+      />
     </>
   );
 }

@@ -1,13 +1,13 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './style.css';
 
-const AuthForm = ({ label, username, setUsername, password, setPassword, onSubmit }) => {
+const AuthForm = ({ label, path, message, username, setUsername, password, setPassword, onSubmit }) => {
   return (
     <Container>
       <Row className="justify-content-md-center">
         <Col md={4}>
           <div className="auth-form-container">
-            <h1 className="text-center">{label}</h1>
+            <p className="fs-4 fw-bold text-center">{label}</p>
             <Form onSubmit={onSubmit}>
               <Form.Group className="mb-3" controlId="username">
                 <Form.Label>Username</Form.Label>
@@ -34,7 +34,11 @@ const AuthForm = ({ label, username, setUsername, password, setPassword, onSubmi
               </Button>
 
               <Form.Text className="text-muted text-center mt-3 d-block">
-                {label === 'Register' ? 'Already have an account? Login here' : 'Need an account? Register here'}
+                {label === 'Create Account' ? (
+                  <p className="text-center mt-3">{message} <a href={path}>here</a></p>
+                ) : (
+                  <p className="text-center mt-3">{message} <a href={path}>here</a></p>
+                )}
               </Form.Text>
             </Form>
           </div>

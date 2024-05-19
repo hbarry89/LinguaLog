@@ -39,7 +39,7 @@ router.get('/users/:id', async (req, res) => {
     }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/create-account', async (req, res) => {
     try {
         const { username, password } = req.body;
         // const existingUser = await UserModel.findOne({ username });
@@ -53,13 +53,13 @@ router.post('/register', async (req, res) => {
             password: hashedPassword
         });
         await newUser.save();
-        res.json({ message: 'User registered successfully.' });
+        res.json({ message: 'User created successfully.' });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/sign-in', async (req, res) => {
     const { username, password } = req.body;
 
     try {

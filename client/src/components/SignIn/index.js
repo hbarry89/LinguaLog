@@ -47,7 +47,7 @@ const SignIn = () => {
       <AuthForm
         label="Sign In"
         path="/create-account"
-        message="Need an account? Create an account"
+        footnote="Need an account? Create an account"
         username={username}
         setUsername={setUsername}
         password={password}

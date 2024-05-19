@@ -1,7 +1,7 @@
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import './style.css';
 
-const AuthForm = ({ label, path, message, username, setUsername, password, setPassword, onSubmit }) => {
+const AuthForm = ({ label, path, footnote, username, setUsername, password, setPassword, onSubmit }) => {
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -35,9 +35,9 @@ const AuthForm = ({ label, path, message, username, setUsername, password, setPa
 
               <Form.Text className="text-muted text-center mt-3 d-block">
                 {label === 'Create Account' ? (
-                  <p className="text-center mt-3">{message} <a href={path}>here</a></p>
+                  <p className="text-center mt-3">{footnote} <a href={path}>here</a></p>
                 ) : (
-                  <p className="text-center mt-3">{message} <a href={path}>here</a></p>
+                  <p className="text-center mt-3">{footnote} <a href={path}>here</a></p>
                 )}
               </Form.Text>
             </Form>

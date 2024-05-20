@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import AuthForm from '../AuthForm';
+import { useSignIn } from '../../utils/auth.js';
 
 const SignIn = () => {
     const api = process.env.REACT_APP_API_URL;
@@ -8,7 +9,7 @@ const SignIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
-    const [_, setCookies] = useCookies(['access_token']);
+    const signIn = useSignIn();
   
     const onSubmit = async (e) => {
       e.preventDefault();
@@ -32,9 +33,7 @@ const SignIn = () => {
           return;
         }
         
-        setCookies("access_token", data.token);
-        window.localStorage.setItem("userId", data.userId);
-        window.location.href = '/';
+        signIn(data.token);
       })
       .catch(error => {
         console.error('Error signing in:', error);

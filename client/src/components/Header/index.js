@@ -1,9 +1,10 @@
+import { Nav, Navbar, Form, Button, Dropdown } from 'react-bootstrap';
 import './style.css';
 import LogoSVG from '../../assets/logo.svg';
-import { Nav, Navbar, Form, Button, Dropdown } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
+import { useIsSignedIn, useSignOut } from '../../utils/auth.js';
 
-export default function Header({ isSignedIn, handleLogout }) {
+export default function Header() {
   const [theme, setTheme] = useState(() => {
     return localStorage.getItem('theme') || 'dark';
   });
@@ -18,6 +19,16 @@ export default function Header({ isSignedIn, handleLogout }) {
     document.body.setAttribute('data-bs-theme', newTheme);
     localStorage.setItem('theme', newTheme);
   };
+
+  const isSignedIn = useIsSignedIn();
+  const signOut = useSignOut();
+
+  const handleSignOut = function() {
+    const isConfirmed = window.confirm(`Are you sure you want to sign out?`);
+    if (!isConfirmed) return;
+
+    signOut();
+  }
 
   return (
     <Navbar expand="lg" className="navbar px-4">
@@ -40,7 +51,7 @@ export default function Header({ isSignedIn, handleLogout }) {
         </Nav>
 
         {isSignedIn ? (
-          <Button onClick={handleLogout} variant="primary" className="btn-sm me-4">Logout</Button>
+          <Button onClick={handleSignOut} variant="primary" className="btn-sm me-4">Sign Out</Button>
         ) : (
           <>
             <Dropdown>

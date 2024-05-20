@@ -1,4 +1,3 @@
-import { useCookies } from 'react-cookie';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './pages/HomePage.js';
@@ -6,24 +5,14 @@ import CreateAccountPage from './pages/CreateAccountPage.js';
 import SignInPage from './pages/SignInPage.js';
 import Dashboard from './pages/Dashboard.js';
 import Dictionary from './pages/Dictionary.js';
+import { useIsSignedIn } from './utils/auth.js';
 
-const Auth = () => {
-  const [cookies, setCookies] = useCookies('access_token');
-
-  const isSignedIn = !!cookies.access_token;
-
-  const handleLogout = function() {
-    const isConfirmed = window.confirm(`Are you sure you want to logout?`);
-    if (!isConfirmed) return;
-
-    setCookies('access_token', '');
-    window.localStorage.removeItem("userId")
-    window.location.href = '/';
-  }
+const AppRouter = () => {
+  const isSignedIn = useIsSignedIn();
 
   return (
     <>
-      <Header isSignedIn={isSignedIn} handleLogout={handleLogout}/>
+      <Header />
       <Router>
         <Routes>
         <Route path="/" element={<HomePage isSignedIn={isSignedIn} />} />
@@ -44,4 +33,4 @@ const Auth = () => {
   );
 };
 
-export default Auth;
+export default AppRouter;

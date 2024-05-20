@@ -24,7 +24,6 @@ const CreateAccount = () => {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.message && data.message.includes('length')) {
           alert('Username must be 3 or more characters.');
           return;

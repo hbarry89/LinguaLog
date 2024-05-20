@@ -8,7 +8,7 @@ const SignIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
   
-    const [_, setCookie] = useCookies(['access_token']);
+    const [_, setCookies] = useCookies(['access_token']);
   
     const onSubmit = async (e) => {
       e.preventDefault();
@@ -27,15 +27,13 @@ const SignIn = () => {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         if (data.message && data.message.includes('Incorrect')) {
           alert('Incorrect username or password.');
           return;
         }
         
-        setCookie("access_token", data.token);
+        setCookies("access_token", data.token);
         window.localStorage.setItem("userId", data.userId);
-        console.log('Sign in successful.');
         window.location.href = '/';
       })
       .catch(error => {

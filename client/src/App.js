@@ -144,8 +144,7 @@ export default function App() {
       }
       return response.json();
     })
-    .then(data => {
-      console.log(data);
+    .then(() => {
       setToastMessage(`${word} has been deleted.`);
       setToastVariant('success');
       const deletedEntries = entries.filter(entry => entry._id !== id);

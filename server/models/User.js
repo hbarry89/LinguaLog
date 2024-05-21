@@ -1,4 +1,4 @@
-const {Schema, model} = require("mongoose");
+const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
     username: {
@@ -15,13 +15,22 @@ const UserSchema = new Schema({
         required: true,
         minlength: 8
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (date) => date.toLocaleString()
+    },
     entries: [
         {
-          type: Schema.Types.ObjectId,
-          ref: 'entry'
+            type: Schema.Types.ObjectId,
+            ref: 'entry'
         }
-      ],
-})
+    ]
+}, {
+    toJSON: {
+        getters: true
+    }
+});
 
-const UserModel = model("user", UserSchema)
-module.exports = UserModel
+const UserModel = model('user', UserSchema);
+module.exports = UserModel;

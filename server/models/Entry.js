@@ -10,10 +10,19 @@ const EntrySchema = new Schema({
         type: String,
         required: true
     },
-    user: {
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        get: (date) => date.toLocaleString()
+    },
+    byUser: {
         type: Schema.Types.ObjectId,
-        ref: 'user',
-        // required: true
+        ref: 'user'
+    }
+}, {
+    toJSON: {
+        getters: true,
+        virtuals: true
     }
 });
 

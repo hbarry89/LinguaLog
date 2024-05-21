@@ -9,3 +9,7 @@
 [data-bs-theme="dark"] .card-container {
   box-shadow: rgb(25, 25, 25) 5px 5px 5px;
 }
+
+.footer {
+  font-size: x-small;
+}

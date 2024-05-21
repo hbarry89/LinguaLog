@@ -26,17 +26,17 @@ export default function App() {
     const api = process.env.REACT_APP_API_URL;
     fetch(`${api}/entries`)
     .then(response => {
-      if (!response.ok) {
-          throw new Error('Failed to get entries.');
-      }
-      return response.json();
+        if (!response.ok) {
+            throw new Error('Failed to get entries.');
+        }
+        return response.json();
     })
     .then(data => {
-      setEntries(data);
-      setLoading(false);
+        setEntries(data);
+        setLoading(false);
     })
     .catch(error => console.error('Error reading entries:', error));
-}, []);
+  }, []);
 
   // POST
   const createEntry = () => {
@@ -50,7 +50,7 @@ export default function App() {
       word,
       definition
     };
-
+  
     fetch(`${api}/entries`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -80,7 +80,7 @@ export default function App() {
       setShowToast(true);
     });
   };
-
+  
   // PUT
   const updateEntry = () => {
     if (!word || !definition) {
@@ -192,24 +192,37 @@ export default function App() {
             </Spinner>
           </div>
         ) : (
-          entries.map(entry => (
-            <div key={entry._id} className="card-container">
-              <Card className="mb-4">
-                <Card.Header>
-                  <b>{entry.word}</b>
-                  <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
-                    <Trash />
-                  </Button>
-                  <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
-                    <PencilSquare />
-                  </Button>
-                </Card.Header>
-                <Card.Body>
-                  <Card.Text>{entry.definition}</Card.Text>
-                </Card.Body>
-              </Card>
-            </div>
-          ))
+          <>
+            {entries.length > 0 ? (
+              entries.map(entry => (
+                <div key={entry._id} className="card-container">
+                  <Card className="mb-4">
+                    <Card.Header className="d-flex align-items-center">
+                      <span className="fs-3 fw-bold">{entry.word}</span>
+                      <div className="ms-auto">
+                      <Button onClick={() => deleteEntry(entry._id, entry.word)} variant="link" className="float-end text-danger py-0 pe-0 ps-2">
+                        <Trash />
+                      </Button>
+                      <Button onClick={() => updateForm(entry)} variant="link" className="float-end text-warning p-0">
+                        <PencilSquare />
+                      </Button>
+                      </div>
+                    </Card.Header>
+                    <Card.Body>
+                      <Card.Text>{entry.definition}</Card.Text>
+                    </Card.Body>
+                    <Card.Footer className="d-flex align-items-center">
+                      <div className="ms-auto">
+                        <span className="fw-lighter footer">Created At: {entry.createdAt}</span>
+                      </div>
+                    </Card.Footer>
+                  </Card>
+                </div>
+              ))
+            ) : (
+              <p className="text-center">No entries found. Please add some to get started.</p>
+            )}
+          </>
         )}
       </Container>
 

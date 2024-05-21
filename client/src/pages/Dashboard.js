@@ -67,8 +67,6 @@ export default function Dashboard() {
     <>
       <h1 className="m-4 text-center">Dashboard</h1>
       <div className="m-4">
-        <p>View your account details here.</p>
-        <p><b>Signed in:</b> {isSignedIn ? 'Yes' : 'No'}</p>
         {loading ? (
           <div className="text-center">
             <Spinner animation="border" role="status">
@@ -79,6 +77,7 @@ export default function Dashboard() {
           userData ? (
             <>
               <p><b>Username:</b> {userData.username}</p>
+              <p><b>Member Since:</b> {userData.createdAt}</p>
               <Button onClick={deleteAccount} variant="danger" className="btn-sm me-4">Delete Account</Button>
             </>
           ) : (

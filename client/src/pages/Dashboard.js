@@ -4,17 +4,19 @@ import { useIsSignedIn, useGetProfile, useSignOut } from '../utils/auth.js';
 
 export default function Dashboard() {
   const api = process.env.REACT_APP_API_URL;
-
+  
   const isSignedIn = useIsSignedIn();
   const getProfile = useGetProfile();
   const signOut = useSignOut();
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  // GET User
   useEffect(() => {
     if (isSignedIn) {
       const profile = getProfile;
       if (profile) {
+        const api = process.env.REACT_APP_API_URL;
         fetch(`${api}/users/${profile.userId}`)
           .then(response => {
             if (!response.ok) {
@@ -38,6 +40,7 @@ export default function Dashboard() {
     }
   }, [isSignedIn, getProfile]);
 
+  // DELETE User
   const deleteAccount = () => {
     const isConfirmed = window.confirm(`Are you sure you want to delete your account?`);
     if (!isConfirmed) return;

@@ -23,6 +23,7 @@ export default function App() {
 
   // GET
   useEffect(() => {
+    const api = process.env.REACT_APP_API_URL;
     fetch(`${api}/entries`)
     .then(response => {
       if (!response.ok) {

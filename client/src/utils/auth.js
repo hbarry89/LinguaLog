@@ -1,5 +1,6 @@
 import { jwtDecode } from 'jwt-decode';
 import { useCookies } from 'react-cookie';
+import { useMemo } from 'react';
 
 export function useAuthTokenCookie() {
     const [cookies, setCookie, removeCookie] = useCookies(['access_token']);
@@ -61,12 +62,15 @@ export function isTokenExpired(token) {
 
 export function useGetProfile() {
     const { token } = useGetToken();
-    return token ? jwtDecode(token) : null;
+
+    const profile = useMemo(() => {
+        return token ? jwtDecode(token) : null;
+    }, [token]);
+    return profile;
 }
 
 export function useGetToken() {
     const [cookies] = useCookies(['access_token']);
     const token = cookies.access_token;
-
     return { token };
 }

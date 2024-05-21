@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useCookies } from 'react-cookie';
 import AuthForm from '../AuthForm';
 import { useSignIn } from '../../utils/auth.js';
 

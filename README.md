@@ -58,18 +58,20 @@ Password: 12345678
 - Render
 
 ### Packages:
-- nodemon
 - concurrently
+- nodemon
 - dotenv
 - cors
 - express
 - mongoose
+- bcrypt
 - bootstrap
+- react-router-dom
 - react-bootstrap
 - react-bootstrap-icons
-- bcrypt
-- jsonwebtoken
 - react-cookie
+- jsonwebtoken
+- jwt-decode
 
 ## :bulb: Future Development
 - TBA

@@ -24,6 +24,11 @@ const CreateAccount = () => {
       })
       .then(res => res.json())
       .then(data => {
+        if (data.message && data.message.includes('characters')) {
+          alert('Password must be at least 8 characters long.');
+          return;
+        }
+
         if (data.message && data.message.includes('length')) {
           alert('Username must be 3 or more characters.');
           return;

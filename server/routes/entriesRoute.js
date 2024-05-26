@@ -11,7 +11,7 @@ const EntryModel = require('../models/Entry.js');
 
 router.get('/', async (req, res) => {
     try {
-        const entries = await EntryModel.find();
+        const entries = await EntryModel.find().populate('createdBy', 'username');
         if (!entries) {
             return res.status(404).json({ message: 'Entries not found.' });
         }
@@ -36,19 +36,28 @@ router.get('/:id', async (req, res) => {
     
 router.post('/', async (req, res) => {
     try {
-        // const { word } = req.body;
-        // const existingWord = await EntryModel.findOne({ word });
-        // if (existingWord) {
-        //     return res.status(409).json({ message: 'Word already exists!' });
-        // }
-
-        const newEntry = new EntryModel(req.body);
+        const { word, definition, createdBy } = req.body;
+        
+        if (!word || !definition || !createdBy) {
+          return res.status(400).json({ message: 'Word, definition, and createdBy are required.' });
+        }
+    
+        const newEntry = new EntryModel({
+          word,
+          definition,
+          createdBy
+        });
+        
         await newEntry.save();
-        res.json(newEntry);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
+        
+        const populatedEntry = await EntryModel.findById(newEntry._id).populate('createdBy', 'username');
+        
+        res.status(201).json(populatedEntry);
+      } catch (error) {
+        console.error('Error creating entry:', error);
+        res.status(500).json({ message: 'Failed to post entry.', error: error.message });
+      }
+    });
 
 router.put('/:id', async (req, res) => {
     const { id } = req.params;

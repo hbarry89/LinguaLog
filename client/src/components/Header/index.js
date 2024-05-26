@@ -42,7 +42,7 @@ export default function Header() {
           <Nav.Link href="/">Home</Nav.Link>
           {isSignedIn ? (
             <>
-              <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+              <Nav.Link href="/profile">Profile</Nav.Link>
               <Nav.Link href="/dictionary">Dictionary</Nav.Link>
             </>
           ) : (

@@ -3,7 +3,7 @@ import Header from './components/Header';
 import HomePage from './pages/HomePage.js';
 import CreateAccountPage from './pages/CreateAccountPage.js';
 import SignInPage from './pages/SignInPage.js';
-import Dashboard from './pages/Dashboard.js';
+import Profile from './pages/Profile.js';
 import Dictionary from './pages/Dictionary.js';
 import { useIsSignedIn } from './utils/auth.js';
 
@@ -18,7 +18,7 @@ const AppRouter = () => {
         <Route path="/" element={<HomePage isSignedIn={isSignedIn} />} />
         {isSignedIn ? (
           <>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/dictionary" element={<Dictionary />} />
           </>
         ) : (

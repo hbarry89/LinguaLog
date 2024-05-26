@@ -2,7 +2,7 @@
 
 ## :pencil: Description
 
-LinguaLog is a language learning tracking web app that enables users to record and organize newly acquired words and phrases, functioning as a personal dictionary.
+LinguaLog is a language learning tracking web app that enables users to record and organize newly acquired words and phrases, functioning as a collaborative dictionary.
 
 ## :desktop_computer: Usage
 
@@ -74,7 +74,8 @@ Password: 12345678
 - jwt-decode
 
 ## :bulb: Future Development
-- TBA
+- Users languages/dialects they are learning to their profile.
+- Users can see multiple dictionaries for each language/dialect they are learning.
 
 ## :books: Resources
 

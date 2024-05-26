@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Spinner, Button } from 'react-bootstrap';
 import { useIsSignedIn, useGetProfile, useSignOut } from '../utils/auth.js';
 
-export default function Dashboard() {
+export default function Profile() {
   const api = process.env.REACT_APP_API_URL;
   
   const isSignedIn = useIsSignedIn();
@@ -65,7 +65,7 @@ export default function Dashboard() {
 
   return (
     <>
-      <h1 className="m-4 text-center">Dashboard</h1>
+      <h1 className="m-4 text-center">Profile</h1>
       <div className="m-4">
         {loading ? (
           <div className="text-center">

@@ -8,7 +8,7 @@ LinguaLog is a language learning tracking web app that enables users to record a
 
 [Click here](https://lingualog-fe.onrender.com/) to view the live link.
 
-*You nay use the following credentials to log in:*
+*Feel free to use the following credentials created for your convenience to log in and test the app::*
 ```
 Username: test
 Password: 12345678
@@ -76,6 +76,7 @@ Password: 12345678
 ## :bulb: Future Development
 - Users languages/dialects they are learning to their profile.
 - Users can see multiple dictionaries for each language/dialect they are learning.
+- Ability to search words and phrases in the dictionary.
 
 ## :books: Resources
 

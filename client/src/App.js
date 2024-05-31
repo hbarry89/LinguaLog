@@ -216,11 +216,10 @@ export default function App() {
                     </Card.Body>
                     <Card.Footer className="d-flex align-items-center">
                       <div className="ms-auto">
-                        {/* <span className="fw-lighter footer">Created by <i>{entry.createdBy?.username || 'Unknown'}</i> on {entry.createdAt}</span> */}
                         <span className="fw-lighter footer">
                           Created by <i>{entry.createdBy?.username || 'Unknown'}</i> on {entry.createdAt}
-                          {entry.editedBy && entry.createdBy !== entry.editedBy && (
-                              <> | Edited by <i>{entry.editedBy.username}</i> on {entry.editedAt}</>
+                          {entry.editedBy && (
+                            <> | Edited by <i>{entry.editedBy?.username || 'Unknown'}</i> on {entry.editedAt}</>
                           )}
                         </span>
                       </div>

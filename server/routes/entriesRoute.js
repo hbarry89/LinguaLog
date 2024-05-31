@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
     try {
         const updatedEntryData = {
             ...req.body,
-            editedBy: req.body.editedBy || req.body.createdBy,
+            editedBy: req.body.editedBy,
             editedAt: new Date()
         };
         const updatedEntry = await EntryModel.findByIdAndUpdate(id, updatedEntryData, { new: true });

@@ -51,27 +51,27 @@ const SignIn = ({ alertTip }) => {
   
     return (
       <>
-        {loading && (
+        {loading ? (
           <div className="d-flex justify-content-center">
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           </div>
+        ) : (
+          <AuthForm
+            label="Sign In"
+            path="/create-account"
+            footnote="Need an account? Create an account"
+            alertTip={alertTip}
+            alertMessage={alertMessage}
+            alertVariant={alertVariant}
+            username={username}
+            setUsername={setUsername}
+            password={password}
+            setPassword={setPassword}
+            onSubmit={onSubmit}
+          />
         )}
-        
-        <AuthForm
-          label="Sign In"
-          path="/create-account"
-          footnote="Need an account? Create an account"
-          alertTip={alertTip}
-          alertMessage={alertMessage}
-          alertVariant={alertVariant}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
-          onSubmit={onSubmit}
-        />
       </>
     );
 }

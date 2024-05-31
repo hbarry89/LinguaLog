@@ -52,7 +52,7 @@ const SignIn = ({ alertTip }) => {
     return (
       <>
         {loading ? (
-          <div className="d-flex justify-content-center">
+          <div className="my-4 d-flex justify-content-center">
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>

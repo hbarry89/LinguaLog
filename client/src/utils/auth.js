@@ -25,7 +25,7 @@ export function useSignIn() {
         
         setAuthToken(storedToken);
         window.localStorage.setItem("userId", userId);
-        window.location.href = '/';
+        window.location.href = '/dictionary';
         console.log('Sign in successful');
     };
 }

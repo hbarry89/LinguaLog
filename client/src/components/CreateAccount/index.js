@@ -48,7 +48,7 @@ const CreateAccount = () => {
       setAlertVariant('success');
       setTimeout(() => {
         window.location.href = '/sign-in';
-      }, 2000);
+      }, 1000);
     })
     .catch(error => {
       console.error('Error creating an account:', error);

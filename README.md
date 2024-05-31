@@ -78,6 +78,7 @@ Password: 12345678
 - Users languages/dialects they are learning to their profile.
 - Users can see multiple dictionaries for each language/dialect they are learning.
 - Ability to search words and phrases in the dictionary.
+- Users to see all their entries on their profile.
 
 ## :books: Resources
 

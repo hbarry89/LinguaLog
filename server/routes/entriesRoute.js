@@ -11,7 +11,9 @@ const EntryModel = require('../models/Entry.js');
 
 router.get('/', async (req, res) => {
     try {
-        const entries = await EntryModel.find().populate('createdBy', 'username');
+        const entries = await EntryModel.find()
+            .populate('createdBy', 'username')
+            .populate('editedBy', 'username');
         if (!entries) {
             return res.status(404).json({ message: 'Entries not found.' });
         }
@@ -62,13 +64,12 @@ router.post('/', async (req, res) => {
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        // const { word } = req.body;
-        // const existingWord = await EntryModel.findOne({ word });
-        // if (existingWord) {
-        //     return res.status(409).json({ message: 'Word already exists!' });
-        // }
-        
-        const updatedEntry = await EntryModel.findByIdAndUpdate(id, req.body, { new: true });
+        const updatedEntryData = {
+            ...req.body,
+            editedBy: req.body.editedBy || req.body.createdBy,
+            editedAt: new Date()
+        };
+        const updatedEntry = await EntryModel.findByIdAndUpdate(id, updatedEntryData, { new: true });
         res.json(updatedEntry);
     } catch (error) {
         res.status(500).json({ message: error.message });

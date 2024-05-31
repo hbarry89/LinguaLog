@@ -18,6 +18,15 @@ const EntrySchema = new Schema({
         type: Date,
         default: Date.now,
         get: (date) => date.toLocaleString()
+    },
+    editedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'user'
+    },
+    editedAt: {
+        type: Date,
+        default: Date.now,
+        get: (date) => date.toLocaleString()
     }
 }, {
     toJSON: {

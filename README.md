@@ -47,7 +47,8 @@ Password: 12345678
 - Express.js for server.
 - React for frontend.
 - Node.js for backend.
-- Bootstrap for styling.
+- Bootstrap for styling and icons.
+- Google Fonts for fonts.
 - Bycrypt for hasing and salting passwords.
 - JWT for user authentication.
 

@@ -66,18 +66,18 @@ export default function App() {
       })
       .then(data => {
         if (data.message && data.message.includes('duplicate' || 'dup')) {
-          setWordError(`${word} already exists.`);
+          setWordError(`'${word}' already exists.`);
           return;
         }
-        setToastMessage(`${word} has been created.`);
+        setToastMessage(`'${word}' has been created.`);
         setToastVariant('success');
         setEntries([...entries, data]);
         setShowAddForm(false);
         setShowToast(true);
       })
       .catch(error => {
-        console.error(`Error creating an entry for ${word}:`, error);
-        setToastMessage(`Unable to create an entry for ${word}. Please try again later.`);
+        console.error(`Error creating an entry for '${word}':`, error);
+        setToastMessage(`Unable to create an entry for '${word}'. Please try again later.`);
         setToastVariant('danger');
         setShowToast(true);
       });
@@ -113,19 +113,20 @@ export default function App() {
       })
       .then(data => {
         if (data.message && data.message.includes('duplicate' || 'dup')) {
-          setWordError(`${word} already exists.`);
+          setWordError(`'${word}' already exists.`);
           return;
         }
-        setToastMessage(`${word} has been updated.`);
+        setToastMessage(`'${word}' has been updated.`);
         setToastVariant('success');
-        const updatedEntries = entries.map(entry => entry._id === editEntry._id ? data : entry);
-        setEntries(updatedEntries);
+        const updatedEntry = entries.map(entry => entry._id === editEntry._id ? data : entry);
+        setEntries(updatedEntry);
         setShowEditForm(false);
         setShowToast(true);
+        window.location.reload();
       })
       .catch(error => {
-        console.error(`Error updating ${word}:`, error);
-        setToastMessage(`Unable to update ${word}. Please try again later.`);
+        console.error(`Error updating '${word}':`, error);
+        setToastMessage(`Unable to update '${word}'. Please try again later.`);
         setToastVariant('danger');
         setShowToast(true);
       });
@@ -133,7 +134,7 @@ export default function App() {
 
   // DELETE
   const deleteEntry = (id, word) => {
-    const isConfirmed = window.confirm(`Are you sure you want to delete ${word}?`);
+    const isConfirmed = window.confirm(`Are you sure you want to delete '${word}'?`);
     if (!isConfirmed) return;
 
     fetch(`${api}/entries/${id}`, {
@@ -149,15 +150,15 @@ export default function App() {
         return response.json();
       })
       .then(() => {
-        setToastMessage(`${word} has been deleted.`);
+        setToastMessage(`'${word}' has been deleted.`);
         setToastVariant('success');
-        const deletedEntries = entries.filter(entry => entry._id !== id);
-        setEntries(deletedEntries);
+        const deletedEntry = entries.filter(entry => entry._id !== id);
+        setEntries(deletedEntry);
         setShowToast(true);
       })
       .catch(error => {
-        console.error(`Error deleting ${word}:`, error);
-        setToastMessage(`Unable to delete ${word}. Please try again later.`);
+        console.error(`Error deleting '${word}':`, error);
+        setToastMessage(`Unable to delete '${word}'. Please try again later.`);
         setToastVariant('danger');
         setShowToast(true);
       });

@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
     try {
         const entries = await EntryModel.find()
             .populate('createdBy', 'username')
-            .populate('editedBy', 'username');
+            //.populate('editedBy', 'username');
         if (!entries) {
             return res.status(404).json({ message: 'Entries not found.' });
         }

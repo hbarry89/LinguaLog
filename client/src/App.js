@@ -118,11 +118,23 @@ export default function App() {
         }
         setToastMessage(`'${word}' has been updated.`);
         setToastVariant('success');
-        const updatedEntry = entries.map(entry => entry._id === editEntry._id ? data : entry);
-        setEntries(updatedEntry);
-        setShowEditForm(false);
-        setShowToast(true);
-        window.location.reload();
+        return fetch(`${api}/users/${getProfile.userId}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Failed to get user profile.');
+            }
+            return response.json();
+          })
+          .then(profile => {
+            const updatedEntry = entries.map(entry => 
+              entry._id === editEntry._id 
+                ? { ...data, createdBy: { userId: entry.createdBy.id, username: entry.createdBy.username }, editedBy: { userId: profile.userId, username: profile.username } }
+                : entry
+            );
+            setEntries(updatedEntry);
+            setShowEditForm(false);
+            setShowToast(true);
+          });
       })
       .catch(error => {
         console.error(`Error updating '${word}':`, error);
